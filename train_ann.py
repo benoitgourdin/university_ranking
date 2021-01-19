@@ -7,7 +7,7 @@ from sklearn.neural_network import MLPRegressor
 def ann(X, y_data):
 
     # ann
-    model = MLPRegressor(hidden_layer_sizes=(8, 8), activation='relu', solver='adam', max_iter=150)
+    model = MLPRegressor(hidden_layer_sizes=(), activation='relu', solver='adam', batch_size=1, max_iter=150)
 
     X_train, X_test, y_train, y_test = train_test_split(DataFrame(X), DataFrame(y_data), test_size=0.1, random_state=0)
     model.fit(X_train, y_train)
