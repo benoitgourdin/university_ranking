@@ -3,9 +3,9 @@ import csv
 from sklearn.preprocessing import StandardScaler
 
 from prepare_input import prepare_input
-from preparing_score_ranking import prepare_score_ranking
+from prepare_score_rank_data import prepare_score_ranking
 from train_ann import ann
-from preparing_data import prepare_data
+from prepare_data import prepare_data
 from pandas import DataFrame
 
 
@@ -48,16 +48,18 @@ if __name__ == '__main__':
 
     #Standardize
     x = standardScaler.transform([X_prepared])
-
-    y = model.predict(DataFrame(x))[0][0]
+    y = model.predict(DataFrame(x))[0]
+    haveRank = False
     for k in score_ranking:
         if y == k[1]:
             rank = k[0]
+            haveRank = True
             break
         elif y > k[1]:
             rank = k[0] - 1
+            haveRank = True
             break
-    if rank == None:
+    if not haveRank:
         rank = "last"
     print("projected rank: " + str(rank))
-    print("score: " + str(y))
+    print("score of the university: " + str(y))

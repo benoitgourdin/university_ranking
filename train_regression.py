@@ -1,21 +1,22 @@
+from pandas import DataFrame
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.model_selection import train_test_split
 
 
 def regression(X, y_data):
 
     # define train and test data
-    cv = KFold(n_splits=10, random_state=1, shuffle=True)
+    X_train, X_test, y_train, y_test = train_test_split(DataFrame(X), DataFrame(y_data), test_size=0.1, random_state=0)
 
     # regression
     regressor = LinearRegression()
-    scores = cross_val_score(regressor, X, y_data, cv=cv)
+    regressor.fit(X_train, y_train)
 
     # get score
-    score = scores.mean()
+    y_pred = regressor.predict(X_test)
+    score = 1 - mean_absolute_error(y_pred, y_test)
     print("score of the algorithm: " + str(score))
 
-    # train algorithm
-    regressor.fit(X, y_data)
     return regressor
 
